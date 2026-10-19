@@ -19,12 +19,15 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 
 def env_list(name: str, default: str = "") -> list[str]:
-    return [item.strip() for item in os.getenv(name, default).split(",") if item.strip()]
+    # An empty value (e.g. a blank dashboard field) falls back to the default.
+    return [item.strip() for item in (os.getenv(name) or default).split(",") if item.strip()]
 
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure-change-me")
 DEBUG = env_bool("DJANGO_DEBUG", False)
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+# Any host by default: the API is stateless with no auth or cookies, so a spoofed Host
+# header has nothing to poison. Set DJANGO_ALLOWED_HOSTS to lock it down anyway.
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "*")
 
 INSTALLED_APPS = [
     "django.contrib.contenttypes",
