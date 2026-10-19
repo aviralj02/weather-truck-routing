@@ -6,7 +6,7 @@ from .services import ors, planner
 from .services.risk import RAIN_IN_HR, SNOW_IN_HR, WIND_MPH, RiskLevel
 
 
-@api_view(["GET"])
+@api_view(["GET", "HEAD"])  # uptime monitors probe with HEAD
 def health(request):
     return Response({"status": "ok"})
 

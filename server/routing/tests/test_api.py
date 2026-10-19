@@ -25,6 +25,11 @@ def payload(**overrides):
     return body
 
 
+@pytest.mark.parametrize("method", ["get", "head"])
+def test_health_answers_uptime_monitors(client, method):
+    assert getattr(client, method)("/api/health/").status_code == 200
+
+
 def test_rejects_past_departure(client):
     resp = client.post("/api/trips/plan/", payload(departure_time="2020-01-01T00:00:00Z"), format="json")
     assert resp.status_code == 400
