@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+server/db.sqlite3
+server/staticfiles/
+.pytest_cache/
+
+# Node
+node_modules/
+client/dist/
+
+# Env (keep the .example files)
+.env
+!.env.example
+
+.DS_Store
+.vscode/
+.idea/
